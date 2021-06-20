@@ -8,7 +8,7 @@
 			"id": "header-badges",
 			"badges": [
 				{
-					"url": "https://github.com/ptkdev-boilerplate/svelte-electron-boilerplate/blob/main/CHANGELOG.md",
+					"url": "https://github.com/henryjw/port-scanner-app/blob/main/CHANGELOG.md",
 					"color": "lightgray",
 					"label": "version",
 					"message": "v{{version}}",
@@ -18,16 +18,16 @@
 					"platform": "shields"
 				},
 				{
-					"url": "https://www.npmjs.com/package/@ptkdev/svelte-electron-boilerplate",
+					"url": "https://www.npmjs.com/package/@henryjw/port-scanner",
 					"color": "#CC3534",
 					"label": "npm",
 					"logo": "npm",
 					"style": "flat",
-					"custom": "/npm/v/@ptkdev/svelte-electron-boilerplate?color=CC3534&logo=npm",
+					"custom": "/npm/v/@henryjw/port-scanner?color=CC3534&logo=npm",
 					"platform": "shields"
 				},
 				{
-					"url": "https://github.com/ptkdev-boilerplate/svelte-electron-boilerplate/blob/main/LICENSE.md",
+					"url": "https://github.com/henryjw/port-scanner-app/blob/main/LICENSE.md",
 					"color": "brightgreen",
 					"label": "license",
 					"message": "{{license}}",
@@ -167,7 +167,7 @@
 			"id": "projects-badges2",
 			"badges": [
 				{
-					"url": "https://github.com/ptkdev/ptkdev-logger",
+					"url": "https://github.com/henryjw/port-scanner-app/ptkdev-logger",
 					"color": "#9b59b6",
 					"label": "🦒 Tools",
 					"message": "Node Logger",
@@ -176,7 +176,7 @@
 					"platform": "shields"
 				},
 				{
-					"url": "https://github.com/ptkdev/all-shields-cli",
+					"url": "https://github.com/henryjw/port-scanner-app/all-shields-cli",
 					"color": "#9b59b6",
 					"label": "🦌 Tools",
 					"message": "All Shields CLI",
@@ -185,7 +185,7 @@
 					"platform": "shields"
 				},
 				{
-					"url": "https://github.com/ptkdev/chrome-extension-aspectratio219",
+					"url": "https://github.com/henryjw/port-scanner-app/chrome-extension-aspectratio219",
 					"color": "#9b59b6",
 					"label": "🖥️ Tools",
 					"message": "Aspect Ratio 21:9",
@@ -203,7 +203,7 @@
 					"platform": "shields"
 				},
 				{
-					"url": "https://github.com/ptkdev/json-token-replace",
+					"url": "https://github.com/henryjw/port-scanner-app/json-token-replace",
 					"color": "#9b59b6",
 					"label": "🐾 Tools",
 					"message": "JSON Token Replace",
@@ -212,7 +212,7 @@
 					"platform": "shields"
 				},
 				{
-					"url": "https://github.com/ptkdev/eslint-plugin-snakecasejs",
+					"url": "https://github.com/henryjw/port-scanner-app/eslint-plugin-snakecasejs",
 					"color": "#9b59b6",
 					"label": "🐍 Tools",
 					"message": "ESLint: snakecasejs",
@@ -226,7 +226,7 @@
 			"id": "projects-badges3",
 			"badges": [
 				{
-					"url": "https://github.com/ptkdev-components/webcomponent-instagram-widget",
+					"url": "https://github.com/henryjw/port-scanner-app-components/webcomponent-instagram-widget",
 					"color": "#e74c3c",
 					"label": "📸 WebComponent",
 					"message": "Instagram Widget",
@@ -235,7 +235,7 @@
 					"platform": "shields"
 				},
 				{
-					"url": "https://github.com/ptkdev-components/webcomponent-patreon-box",
+					"url": "https://github.com/henryjw/port-scanner-app-components/webcomponent-patreon-box",
 					"color": "#e74c3c",
 					"label": "👑 WebComponent",
 					"message": "My Patreon Box",
@@ -244,7 +244,7 @@
 					"platform": "shields"
 				},
 				{
-					"url": "https://github.com/ptkdev-components/webcomponent-carousel-slideshow",
+					"url": "https://github.com/henryjw/port-scanner-app-components/webcomponent-carousel-slideshow",
 					"color": "#e74c3c",
 					"label": "🏞 WebComponent",
 					"message": "Carousel Slideshow",
@@ -258,7 +258,7 @@
 			"id": "projects-badges4",
 			"badges": [
 				{
-					"url": "https://github.com/ptkdev/vscode-theme-dark-blood",
+					"url": "https://github.com/henryjw/port-scanner-app/vscode-theme-dark-blood",
 					"color": "#f1c40f",
 					"label": "🎨 Themes",
 					"message": "VSCode",
@@ -276,7 +276,7 @@
 					"platform": "shields"
 				},
 				{
-					"url": "https://github.com/ptkdev-boilerplate?q=svelte",
+					"url": "https://github.com/henryjw/port-scanner-app?q=svelte",
 					"color": "#f368e0",
 					"label": "👔 Boilerplate",
 					"message": "Svelte",
@@ -285,7 +285,7 @@
 					"platform": "shields"
 				},
 				{
-					"url": "https://github.com/ptkdev-boilerplate?q=webcomponent",
+					"url": "https://github.com/henryjw/port-scanner-app?q=webcomponent",
 					"color": "#f368e0",
 					"label": "👔 Boilerplate",
 					"message": "WebComponents",
@@ -294,7 +294,7 @@
 					"platform": "shields"
 				},
 				{
-					"url": "https://github.com/ptkdev-boilerplate?q=bot",
+					"url": "https://github.com/henryjw/port-scanner-app?q=bot",
 					"color": "#f368e0",
 					"label": "👔 Boilerplate",
 					"message": "BOT",
@@ -303,7 +303,7 @@
 					"platform": "shields"
 				},
 				{
-					"url": "https://github.com/ptkdev-boilerplate?q=node",
+					"url": "https://github.com/henryjw/port-scanner-app?q=node",
 					"color": "#f368e0",
 					"label": "👔 Boilerplate",
 					"message": "Node",
@@ -321,7 +321,7 @@
 					"platform": "shields"
 				},
 				{
-					"url": "https://github.com/ptkdev/ptkdev-stickers#-install-free",
+					"url": "https://github.com/henryjw/port-scanner-app/ptkdev-stickers#-install-free",
 					"color": "#2ecc71",
 					"label": "📱 App",
 					"message": "Stickers",

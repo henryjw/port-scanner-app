@@ -1,25 +1,25 @@
 {
-	"name": "@ptkdev/svelte-electron-boilerplate",
-	"displayName": "Svelte Electron Boilerplate",
-	"description": "Create a desktop app with this friendly Svelte boilerplate for electron",
-	"version": "1.0.20210412",
+	"name": "@henryjw/port-scanner",
+	"displayName": "Port Scanner",
+	"description": "Desktop app to scan for open TCP ports on your computer",
+	"version": "0.1.0",
 	"main": "dist/electron/electron/main.js",
 	"publishConfig": {
 		"access": "public"
 	},
-	"author": "Patryk Rzucidło [@ptkdev] <support@ptkdev.io> (https://ptk.dev)",
+	"author": "Henry W. [@henryjw]",
 	"license": "MIT",
 	"license-docs": "CC BY 4.0",
 	"license-translations": "CC BY 4.0",
 	"license-images": "CC BY-NC 4.0",
-	"homepage": "https://github.com/ptkdev-boilerplate/svelte-electron-boilerplate",
+	"homepage": "https://github.com/henryjw/port-scanner-app",
 	"docs": "https://github.com/WeeeTeam/projectx-docs",
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/ptkdev-boilerplate/svelte-electron-boilerplate.git"
+		"url": "https://github.com/henryjw/port-scanner-app.git"
 	},
 	"bugs": {
-		"url": "https://github.com/ptkdev-boilerplate/svelte-electron-boilerplate/issues"
+		"url": "https://github.com/henryjw/port-scanner-app/issues"
 	},
 	"engines": {
 		"node": ">=14.0.0"
@@ -44,16 +44,10 @@
 		"lint": "npm run lint-prettify && eslint . --cache --ext .ts,.js",
 		"lint-fix": "npm run lint-prettify && eslint . --cache --ext .ts,.js --fix",
 		"lint-prettify": "prettier --write **/*.{ts,scss,md,json}",
-		"git-set-upstream": "git remote add upstream git@github.com:ptkdev-boilerplate/svelte-electron-boilerplate.git && git fetch upstream",
-		"git-pull-upstream": "git pull upstream main && git pull upstream beta && git pull upstream nightly",
 		"git-pull": "git pull --recursive",
 		"git-ignore-reset": "git rm -r --cached . && git add . && git commit -m \"[Fix] Removing all files in .gitignore\"",
 		"npm-publish-main": "git checkout main && npm publish",
-		"npm-publish-beta": "git checkout beta && npm publish --tag beta",
-		"npm-publish-nightly": "git checkout nightly && npm publish --tag nightly",
-		"contributors-generate": "all-contributors generate",
-		"all-shields-generate": "all-shields-generate",
-		"pre-commit": "npm run contributors-generate && npm run all-shields-generate && npm run lint-fix && npm run test",
+		"pre-commit": "npm run lint-fix && npm run test",
 		"pkg-clean": "rm -rf node_modules package-lock.json && npm install && husky install",
 		"pkg-update": "npm update",
 		"pkg-upgrade": "npx npm-check-updates -u && npm install && husky install"
@@ -122,8 +116,8 @@
 		"yargs": "^16.2.0"
 	},
 	"build": {
-		"productName": "svelte-electron-boilerplate",
-		"appId": "io.ptkdev.svelte-electron-boilerplate",
+		"productName": "port-scanner",
+		"appId": "io.ptkdev.port-scanner",
 		"artifactName": "${productName}-${version}.${ext}",
 		"directories": {
 			"output": "build",
@@ -170,7 +164,7 @@
 		"svelte-electron-spa",
 		"electron",
 		"electron-boilerplate",
-		"svelte-electron-boilerplate",
+		"port-scanner",
 		"boilerplate"
 	],
 	"contributors": []

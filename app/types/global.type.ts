@@ -3,7 +3,7 @@
  * =====================
  * Global typings
  *
- * @contributors: Patryk Rzucidło [@ptkdev] <support@ptkdev.io> (https://ptk.dev)
+ * @contributors: Henry W. [@henryjw]
  *
  * @license: MIT License
  *

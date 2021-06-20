@@ -2,8 +2,8 @@
 	"contributions": {
 		"language": "Italian",
 		"license": "CC BY 4.0",
-		"contributors": ["Patryk Rzucidło [@ptkdev] <support@ptkdev.io> (https://ptk.dev)"]
+		"contributors": ["Henry W. [@henryjw]"]
 	},
-	"app_name": "svelte-electron-boilerplate",
+	"app_name": "port-scanner",
 	"hello": "Ciao Mondo!"
 }

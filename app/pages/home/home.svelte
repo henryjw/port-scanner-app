@@ -3,7 +3,7 @@
 	 * Home HTML
 	 * =====================
 	 *
-	 * @contributors: Patryk Rzucidło [@ptkdev] <support@ptkdev.io> (https://ptk.dev)
+	 * @contributors: Henry W. [@henryjw]
 	 *
 	 * @license: MIT License
 	 *
@@ -19,7 +19,7 @@
 		<div class="hero-body">
 			<div class="container">
 				<h1 class="title">Hello World</h1>
-				<h2 class="subtitle">svelte-electron-boilerplate</h2>
+				<h2 class="subtitle">port-scanner</h2>
 			</div>
 		</div>
 	</section>
