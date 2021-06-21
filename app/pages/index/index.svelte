@@ -1,14 +1,6 @@
 <script lang="ts">
-	/**
-	 * Index HTML
-	 * =====================
-	 * Svelte Page
-	 *
-	 * @contributors: Henry W. [@henryjw]
-	 *
-	 * @license: MIT License
-	 *
-	 */
+	import "bootstrap/dist/css/bootstrap.min.css";
+
 	import Router from "svelte-spa-router";
 	import routes from "@app/routes/pages";
 	import { darkModeDetect } from "@components/common/darkmode/darkmode";

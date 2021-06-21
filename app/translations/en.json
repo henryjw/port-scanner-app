@@ -2,7 +2,7 @@
 	"contributions": {
 		"language": "English",
 		"license": "CC BY 4.0",
-		"contributors": ["Henry W. [@henryjw]"]
+		"contributors": ["Henry [@henryjw] <3443648+henryjw@users.noreply.github.com>"]
 	},
 	"app_name": "port-scanner",
 	"hello": "Hello World!"

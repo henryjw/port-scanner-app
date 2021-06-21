@@ -2,7 +2,7 @@
  * Jest Tests
  * =====================
  *
- * @contributors: Henry W. [@henryjw]
+ * @contributors: Henry [@henryjw] <3443648+henryjw@users.noreply.github.com>
  *
  * @license: MIT License
  *
