@@ -49,5 +49,5 @@
 </div>
 
 <style lang="scss">
-	@import "./home.scss";
+	@import "main";
 </style>

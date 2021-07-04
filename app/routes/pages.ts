@@ -8,7 +8,7 @@
  * @license: MIT License
  *
  */
-import Home from "@app/pages/home/home.svelte";
+import Home from "@app/pages/main/main.svelte";
 export default {
 	"/": Home
 };
