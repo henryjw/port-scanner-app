@@ -8,7 +8,6 @@
  *
  */
 
-import { sign } from "crypto";
 import { contextBridge } from "electron";
 import { exec } from "child_process";
 import { promisify } from "util";
@@ -18,12 +17,15 @@ import { MAX_PORT_NUMBER, MIN_PORT_NUMBER } from "../app/constants/numbers";
 import { wait } from "../app/utils/wait";
 const execAsync = promisify(exec);
 
-export async function getProcesses(fromPort=MIN_PORT_NUMBER, toPort=MAX_PORT_NUMBER): Promise<Process[]> {
+const WINDOWS_NEWLINE = "\r\n";
+const UNIX_NEWLINE = "\n";
+
+async function getProcessesUnix(): Promise<Process[]> {
 	const scriptResult = (await execAsync("lsof -nP -iTCP -sTCP:LISTEN")).stdout.trim();
 
-	const rows = scriptResult.split("\n").slice(1);
+	const rows = scriptResult.split(UNIX_NEWLINE).slice(1);
 
-	const processes = rows.map(row => {
+	return rows.map(row => {
 		const columnSeparator = "  ";
 		row = row.trim().replace(/[ ]+/g, columnSeparator);
 
@@ -36,6 +38,60 @@ export async function getProcesses(fromPort=MIN_PORT_NUMBER, toPort=MAX_PORT_NUM
 			portNumber: Number.parseInt(portNumber, 10)
 		};
 	});
+}
+
+async function getProcessesWindows(): Promise<Process[]> {
+	const scriptResult = (await execAsync('netstat -aon | findstr "LISTENING"')).stdout.trim();
+
+	const rows = scriptResult.split(WINDOWS_NEWLINE).slice(1);
+
+	const processes = rows
+		.map(row => {
+			const columnSeparator = "  ";
+			row = row.trim().replace(/[ ]+/g, columnSeparator);
+
+			const [_, name, __, ___, pid] = row.split(columnSeparator);
+			const [ipAddress, portNumber] = name.match(/.+:(?<portNumber>[0-9]+)/g)[0].split(":");
+
+			if (ipAddress !== "127.0.0.1") {
+				return null;
+			}
+
+			return {
+				command: "",
+				id: Number.parseInt(pid, 10),
+				portNumber: Number.parseInt(portNumber, 10)
+			};
+		})
+		.filter(Boolean); // Filter out invalid processes
+
+	for (const process of processes) {
+		// TODO: optimize this to be executed as a single command instead of one command per process
+
+		// Example out script output:
+		// Image Name                     PID Services
+		// ========================= ======== ============================================
+		// webstorm64.exe                3004 N/A
+
+		try {
+			process.command = (await execAsync(`tasklist /svc /FI "PID eq ${process.id}"`))
+				.stdout.trim()
+				.split(WINDOWS_NEWLINE)
+				.slice(2)[0]
+				.replace(/ [0-9]+ .+$/, "")
+				.trim();
+		} catch (err) {
+			console.error(`Error getting process name for process with ID ${process.id}`, err);
+		}
+	}
+
+	return processes;
+}
+
+export async function getProcesses(fromPort=MIN_PORT_NUMBER, toPort=MAX_PORT_NUMBER): Promise<Process[]> {
+	const processes: Process[] = process.platform === "win32"
+		? await getProcessesWindows()
+		: await getProcessesUnix();
 
 	return processes.filter(process => process.portNumber >= fromPort && process.portNumber <= toPort);
 }
