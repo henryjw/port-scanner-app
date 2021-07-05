@@ -9,6 +9,7 @@
 	 * This callback is executed when any change is performed to a process (e.g., process is terminated)
 	 */
 	export let onProcessChange: () => void;
+	export let loading = false;
 	let selectedProcess: Process | null;
 	let terminatingProcess = false;
 
@@ -39,16 +40,16 @@
 	on:close={() => selectedProcess = null}
 />
 
-<div>
-	<table class="table">
-		<thead>
-			<tr>
-				<th scope="col"></th>
-				<th scope="col">Command</th>
-				<th scope="col">PID</th>
-				<th scope="col">Port</th>
-			</tr>
-		</thead>
+<table class="table align-middle">
+	<thead>
+		<tr>
+			<th scope="col"></th>
+			<th scope="col">Command</th>
+			<th scope="col">PID</th>
+			<th scope="col">Port</th>
+		</tr>
+	</thead>
+	{#if !loading}
 		<tbody>
 			{#each processes as process}
 				<tr>
@@ -68,8 +69,15 @@
 				</tr>
 			{/each}
 		</tbody>
-	</table>
-</div>
+	{/if}
+</table>
+{#if loading}
+	<div class="flex-container justify-content-center">
+		<div id="loader" class="spinner-border" role="status">
+			<span class="visually-hidden">Loading...</span>
+		</div>
+	</div>
+{/if}
 
 <style lang="scss">
 	@import "./processtable.scss";

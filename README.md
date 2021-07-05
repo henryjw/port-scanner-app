@@ -12,13 +12,13 @@ Built on using [Svelte Electron Boilerplate](https://github.com/henryjw/port-sca
 
 ## TODO
 
-[ ] Add loader when scanning
+- [ ] Add binaries for Linux, Mac, and Windows
 
-[ ]Add binaries for Linux, Mac, and Windows
+- [ ] Improve error handling
 
-[ ] Improve error handling
+- [ ] Polish UI
 
-[ ] Polish UI
+- [x] Add loader when scanning
 
 ## Installing dependencies
 
