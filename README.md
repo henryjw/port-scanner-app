@@ -4,29 +4,29 @@ This app scans for processes based on the network ports currently in use. The pr
 
 For instance, port 8080 is a port commonly used for development. So if it's in use, I can easily scan for that port with this app and terminate whatever process is using that port.
 
-Built on using [Svelte Electron Boilerplate](https://github.com/henryjw/port-scanner-app).
+Built on using [Svelte Electron Boilerplate](https://github.com/ptkdev-boilerplate/svelte-electron-boilerplate).
 
 ### App Screenshot
 
 ![App Screenshot](docs/images/process-terminate-prompt.png)
 
-## TODO
+## Running the App
+There are pre-built binaries in the [builds](./builds) folder. Otherwise, run the `build` script for your platform.
 
-- [ ] Add binaries for Linux, Mac, and Windows
+### Build Scripts
+- MacOS 	- `npm run build-mac`
+- Windows 	- `npm run build-win`
+- Linux 	- `npm run build-lnx`
 
-- [ ] Improve error handling
+## Development
 
-- [ ] Polish UI
-
-- [x] Add loader when scanning
-
-## Installing dependencies
+### Installing dependencies
 
 ```sh
 npm i
 ```
 
-## Starting Development
+### Dev Environment
 
 Start the app in the `dev` environment. This starts the renderer process in [**hot-module-replacement**](https://webpack.js.org/guides/hmr-react/) mode and starts a webpack dev server that sends hot updates to the renderer process:
 
@@ -34,3 +34,14 @@ Start the app in the `dev` environment. This starts the renderer process in [**h
 npm dev # Starts web app
 npm dev:electron # Starts Electron process
 ```
+
+## TODO
+
+- [ ] Improve error handling
+
+- [ ] Polish UI
+
+- [x] Add binaries for MacOS and Windows
+
+- [x] Add loader when scanning
+
