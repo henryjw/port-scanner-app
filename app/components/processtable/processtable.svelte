@@ -17,16 +17,16 @@
 		selectedProcess = process;
 	};
 
-	const terminateProcess = async (pid: number) => {
+	const terminateProcess = async (process: Process) => {
 		terminatingProcess = true;
-		const terminated = await pkill(pid);
+		const terminated = await pkill(process);
 		terminatingProcess = false;
 
 		if (terminated) {
-			console.debug(`Terminated process ${pid}`);
+			console.debug(`Terminated process ${process.command} (${process.id})`);
 			onProcessChange();
 		} else {
-			throw new Error(`Failed to terminate process ${pid}`);
+			alert("Unable to terminate process");
 		}
 	};
 </script>
@@ -36,7 +36,7 @@
 	message="Are you sure you want to terminate this process?"
 	acceptButtonText="Terminate"
 	cancelButtonText="Cancel"
-	onAccept={async () => await terminateProcess(selectedProcess.id)}
+	onAccept={async () => await terminateProcess(selectedProcess)}
 	on:close={() => selectedProcess = null}
 />
 
@@ -44,9 +44,9 @@
 	<thead>
 		<tr>
 			<th scope="col"></th>
+			<th scope="col">Port</th>
 			<th scope="col">Command</th>
 			<th scope="col">PID</th>
-			<th scope="col">Port</th>
 		</tr>
 	</thead>
 	{#if !loading}
@@ -58,13 +58,16 @@
 						<DangerButton text="X" onClick={() => setSelectedProcess(process)}/>
 					</th>
 					<td>
+						{process.portNumber}
+					</td>
+					<td>
 						{process.command}
+						{#if process.isWSL}
+							<span id="wsl-indicator">[WSL]</span>
+						{/if}
 					</td>
 					<td>
 						{process.id}
-					</td>
-					<td>
-						{process.portNumber}
 					</td>
 				</tr>
 			{/each}

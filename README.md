@@ -18,6 +18,15 @@ There are pre-built binaries in the [builds](./builds) folder. Otherwise, run th
 - Windows 	- `npm run build-win`
 - Linux 	- `npm run build-lnx`
 
+## WSL Support
+The Windows version can also scan for WSL processes. However, this functionality depends on `lsof`.
+If it doesn't come pre-installed with your Linux distro, you can install it with the following command: `sudo apt-get install lsof`.
+
+If you don't install `lsof`, you'll get the following error:
+<span style="color:red; font-weight:bold">Error getting processes Error: Command failed: wsl lsof -nP -iTCP -sTCP:LISTEN</span>
+
+Optionally, you can just disable checking for WSL processes on the app.
+
 ## Development
 
 ### Installing dependencies
@@ -35,13 +44,6 @@ npm dev # Starts web app
 npm dev:electron # Starts Electron process
 ```
 
-## TODO
-
-- [ ] Improve error handling
-
-- [ ] Polish UI
-
-- [x] Add binaries for MacOS and Windows
-
-- [x] Add loader when scanning
-
+## Known Issues
+- App shows an error alert when after trying to terminate a WSL process even after successfully terminating the process.
+  If you click the SCAN button and the process disappears from the list, then it was terminated.

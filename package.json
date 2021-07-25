@@ -2,7 +2,7 @@
 	"name": "@henryjw/port-scanner",
 	"displayName": "Port Scanner",
 	"description": "Desktop app to scan for open TCP ports on your computer",
-	"version": "0.2.0",
+	"version": "1.0.0",
 	"main": "dist/electron/electron/main.js",
 	"publishConfig": {
 		"access": "public"

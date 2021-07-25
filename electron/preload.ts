@@ -20,8 +20,35 @@ const execAsync = promisify(exec);
 const WINDOWS_NEWLINE = "\r\n";
 const UNIX_NEWLINE = "\n";
 
-async function getProcessesUnix(): Promise<Process[]> {
-	const scriptResult = (await execAsync("lsof -nP -iTCP -sTCP:LISTEN")).stdout.trim();
+const LSOF_EXIT_CODES = {
+	OK: 0,
+	NO_RESULTS: 1,
+	COMMAND_NOT_FOUND: 127
+};
+
+async function getProcessesUnix({ wsl = false }): Promise<Process[]> {
+	const script = `${wsl ? "wsl" : ""} lsof -i tcp -s tcp:listen`;
+
+
+	let scriptResult: string;
+
+	try {
+		scriptResult = (await execAsync(script)).stdout.trim();
+	} catch (err) {
+		if (err.code == LSOF_EXIT_CODES.NO_RESULTS) {
+			return [];
+		}
+
+		if (err.code == LSOF_EXIT_CODES.COMMAND_NOT_FOUND) {
+			const message = wsl
+				? "Failed to read WSL processes. Make sure `lsof` command is installed inside your distro."
+				: "Failed to read processes. Make sure `lsof` is installed.";
+
+			throw new Error(message);
+		}
+
+		throw err;
+	}
 
 	const rows = scriptResult.split(UNIX_NEWLINE).slice(1);
 
@@ -35,7 +62,8 @@ async function getProcessesUnix(): Promise<Process[]> {
 		return {
 			command,
 			id: Number.parseInt(pid, 10),
-			portNumber: Number.parseInt(portNumber, 10)
+			portNumber: Number.parseInt(portNumber, 10),
+			isWSL: wsl,
 		};
 	});
 }
@@ -46,7 +74,7 @@ async function getProcessesWindows(): Promise<Process[]> {
 	const rows = scriptResult.split(WINDOWS_NEWLINE).slice(1);
 
 	const processes = rows
-		.map(row => {
+		.map((row): Process=> {
 			const columnSeparator = "  ";
 			row = row.trim().replace(/[ ]+/g, columnSeparator);
 
@@ -60,7 +88,8 @@ async function getProcessesWindows(): Promise<Process[]> {
 			return {
 				command: "",
 				id: Number.parseInt(pid, 10),
-				portNumber: Number.parseInt(portNumber, 10)
+				portNumber: Number.parseInt(portNumber, 10),
+				isWSL: false,
 			};
 		})
 		.filter(Boolean); // Filter out invalid processes
@@ -88,16 +117,30 @@ async function getProcessesWindows(): Promise<Process[]> {
 	return processes;
 }
 
-export async function getProcesses(fromPort=MIN_PORT_NUMBER, toPort=MAX_PORT_NUMBER): Promise<Process[]> {
-	const processes: Process[] = process.platform === "win32"
-		? await getProcessesWindows()
-		: await getProcessesUnix();
+export async function getProcesses(fromPort=MIN_PORT_NUMBER, toPort=MAX_PORT_NUMBER, checkWslProcesses = false): Promise<Process[]> {
+	const isWindows = getPlatform() === "win32";
+
+	let processes: Process[] = [];
+	if (!isWindows || (isWindows && checkWslProcesses)) {
+		processes = processes.concat(await getProcessesUnix({ wsl: isWindows }));
+	}
+
+	if (isWindows) {
+		processes = processes.concat(await getProcessesWindows());
+	}
 
 	return processes.filter(process => process.portNumber >= fromPort && process.portNumber <= toPort);
 }
 
-function tryKill(pid: number): boolean {
+export function getPlatform() {
+	return process.platform;
+}
+
+function tryKill(pid: number, wsl: boolean): boolean {
 	try {
+		if (wsl) {
+			return exec(`wsl kill ${pid}`).exitCode === 0;
+		}
 		return process.kill(pid);
 	} catch (err) {
 		if (err.code === "ESRCH") {
@@ -108,8 +151,9 @@ function tryKill(pid: number): boolean {
 	}
 }
 
-export async function terminate(pid: number): Promise<boolean> {
-	let signalSent = tryKill(pid);
+export async function terminate(process: Process): Promise<boolean> {
+	const { id: pid, isWSL } = process;
+	let signalSent = tryKill(process.id, process.isWSL);
 
 	if (!signalSent) {
 		return false;
@@ -118,11 +162,10 @@ export async function terminate(pid: number): Promise<boolean> {
 	let tries = 0;
 	const maxTries = 5;
 
-	signalSent = tryKill(pid);
 	do {
 		await wait(100);
 		tries += 1;
-		signalSent = tryKill(pid);
+		signalSent = tryKill(pid, isWSL);
 		// If the process is still receiving the signal it means it's still alive
 	} while (signalSent && tries <= maxTries);
 
@@ -137,7 +180,8 @@ export async function terminate(pid: number): Promise<boolean> {
 // https:// www.electronjs.org/docs/tutorial/process-model#preload-scripts
 contextBridge.exposeInMainWorld("process", {
 	getProcesses,
-	terminate
+	terminate,
+	getPlatform
 });
 
 
