@@ -26,15 +26,19 @@ const LSOF_EXIT_CODES = {
 	COMMAND_NOT_FOUND: 127
 };
 
+const INVALID_PORT_NUMBER_CODE = -1;
+
 async function getProcessesUnix({ wsl = false }): Promise<Process[]> {
 	const script = `${wsl ? "wsl" : ""} lsof -i tcp -s tcp:listen`;
-
+	console.debug("GetProcesses Script: ", script);
 
 	let scriptResult: string;
 
 	try {
 		scriptResult = (await execAsync(script)).stdout.trim();
+		console.debug("Script result: ", scriptResult);
 	} catch (err) {
+		console.error("Error getting processes", err);
 		if (err.code == LSOF_EXIT_CODES.NO_RESULTS) {
 			return [];
 		}
@@ -52,20 +56,22 @@ async function getProcessesUnix({ wsl = false }): Promise<Process[]> {
 
 	const rows = scriptResult.split(UNIX_NEWLINE).slice(1);
 
-	return rows.map(row => {
-		const columnSeparator = "  ";
-		row = row.trim().replace(/[ ]+/g, columnSeparator);
+	return rows
+		.map(row => {
+			const columnSeparator = "  ";
+			row = row.trim().replace(/[ ]+/g, columnSeparator);
 
-		const [command, pid, user, fd, type, deviceSize, offset, node, name] = row.split(columnSeparator);
-		const [ipAddress, portNumber] = name.match(/.+:(?<portNumber>[0-9]+)/g)[0].split(":");
+			const [command, pid, user, fd, type, deviceSize, offset, node, name] = row.split(columnSeparator);
+			const [ipAddress, portNumber] = name.split(":");
 
-		return {
-			command,
-			id: Number.parseInt(pid, 10),
-			portNumber: Number.parseInt(portNumber, 10),
-			isWSL: wsl,
-		};
-	});
+			return {
+				command,
+				id: Number.parseInt(pid, 10),
+				portNumber: Number.parseInt(portNumber, 10) || INVALID_PORT_NUMBER_CODE,
+				isWSL: wsl,
+			};
+		})
+		.filter(process => process.portNumber !== INVALID_PORT_NUMBER_CODE);
 }
 
 async function getProcessesWindows(): Promise<Process[]> {
