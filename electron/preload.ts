@@ -23,13 +23,13 @@ const UNIX_NEWLINE = "\n";
 const LSOF_EXIT_CODES = {
 	OK: 0,
 	NO_RESULTS: 1,
-	COMMAND_NOT_FOUND: 127
+	COMMAND_NOT_FOUND: 127,
 };
 
 const INVALID_PORT_NUMBER_CODE = -1;
 
 async function getProcessesUnix({ wsl = false }): Promise<Process[]> {
-	const script = `${wsl ? "wsl" : ""} lsof -i tcp -s tcp:listen`;
+	const script = `${wsl ? "wsl" : ""} lsof -PiTCP -sTCP:LISTEN`;
 	console.debug("GetProcesses Script: ", script);
 
 	let scriptResult: string;
@@ -56,22 +56,22 @@ async function getProcessesUnix({ wsl = false }): Promise<Process[]> {
 
 	const rows = scriptResult.split(UNIX_NEWLINE).slice(1);
 
-	return rows
-		.map(row => {
-			const columnSeparator = "  ";
-			row = row.trim().replace(/[ ]+/g, columnSeparator);
+	return rows.map((row) => {
+		const columnSeparator = "  ";
+		row = row.trim().replace(/[ ]+/g, columnSeparator);
 
-			const [command, pid, user, fd, type, deviceSize, offset, node, name] = row.split(columnSeparator);
-			const [ipAddress, portNumber] = name.split(":");
+		const [command, pid, user, fd, type, deviceSize, offset, node, name] = row.split(columnSeparator);
+		const [ipAddress, portNumber] = name.split(":");
 
-			return {
-				command,
-				id: Number.parseInt(pid, 10),
-				portNumber: Number.parseInt(portNumber, 10) || INVALID_PORT_NUMBER_CODE,
-				isWSL: wsl,
-			};
-		})
-		.filter(process => process.portNumber !== INVALID_PORT_NUMBER_CODE);
+		return {
+			command,
+			id: Number.parseInt(pid, 10),
+			// portNumber: Number.parseInt(portNumber, 10) || INVALID_PORT_NUMBER_CODE,
+			portNumber,
+			isWSL: wsl,
+		};
+	});
+	// .filter((process) => process.portNumber !== INVALID_PORT_NUMBER_CODE);
 }
 
 async function getProcessesWindows(): Promise<Process[]> {
@@ -80,7 +80,7 @@ async function getProcessesWindows(): Promise<Process[]> {
 	const rows = scriptResult.split(WINDOWS_NEWLINE).slice(1);
 
 	const processes = rows
-		.map((row): Process=> {
+		.map((row): Process => {
 			const columnSeparator = "  ";
 			row = row.trim().replace(/[ ]+/g, columnSeparator);
 
@@ -109,8 +109,8 @@ async function getProcessesWindows(): Promise<Process[]> {
 		// webstorm64.exe                3004 N/A
 
 		try {
-			process.command = (await execAsync(`tasklist /svc /FI "PID eq ${process.id}"`))
-				.stdout.trim()
+			process.command = (await execAsync(`tasklist /svc /FI "PID eq ${process.id}"`)).stdout
+				.trim()
 				.split(WINDOWS_NEWLINE)
 				.slice(2)[0]
 				.replace(/ [0-9]+ .+$/, "")
@@ -123,7 +123,7 @@ async function getProcessesWindows(): Promise<Process[]> {
 	return processes;
 }
 
-export async function getProcesses(fromPort=MIN_PORT_NUMBER, toPort=MAX_PORT_NUMBER, checkWslProcesses = false): Promise<Process[]> {
+export async function getProcesses(fromPort = MIN_PORT_NUMBER, toPort = MAX_PORT_NUMBER, checkWslProcesses = false): Promise<Process[]> {
 	const isWindows = getPlatform() === "win32";
 
 	let processes: Process[] = [];
@@ -134,8 +134,9 @@ export async function getProcesses(fromPort=MIN_PORT_NUMBER, toPort=MAX_PORT_NUM
 	if (isWindows) {
 		processes = processes.concat(await getProcessesWindows());
 	}
-
-	return processes.filter(process => process.portNumber >= fromPort && process.portNumber <= toPort);
+	console.log(processes);
+	// return processes.filter((process) => process.portNumber >= fromPort && process.portNumber <= toPort);
+	return processes;
 }
 
 export function getPlatform() {
@@ -187,9 +188,8 @@ export async function terminate(process: Process): Promise<boolean> {
 contextBridge.exposeInMainWorld("process", {
 	getProcesses,
 	terminate,
-	getPlatform
+	getPlatform,
 });
-
 
 // All of the Node.js APIs are available in the preload process.
 // It has the same sandbox as a Chrome extension.
