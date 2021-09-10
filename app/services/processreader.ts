@@ -1,7 +1,7 @@
 import { MAX_PORT_NUMBER, MIN_PORT_NUMBER } from "../constants/numbers";
 
 export type Process = {
-	portNumber: string | number;
+	portNumber: number;
 	id: number;
 	command: string;
 	isWSL: boolean;

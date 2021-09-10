@@ -66,8 +66,7 @@ async function getProcessesUnix({ wsl = false }): Promise<Process[]> {
 		return {
 			command,
 			id: Number.parseInt(pid, 10),
-			// portNumber: Number.parseInt(portNumber, 10) || INVALID_PORT_NUMBER_CODE,
-			portNumber,
+			portNumber: Number.parseInt(portNumber, 10) || INVALID_PORT_NUMBER_CODE,
 			isWSL: wsl,
 		};
 	});
@@ -135,8 +134,7 @@ export async function getProcesses(fromPort = MIN_PORT_NUMBER, toPort = MAX_PORT
 		processes = processes.concat(await getProcessesWindows());
 	}
 	console.log(processes);
-	// return processes.filter((process) => process.portNumber >= fromPort && process.portNumber <= toPort);
-	return processes;
+	return processes.filter((process) => process.portNumber >= fromPort && process.portNumber <= toPort);
 }
 
 export function getPlatform() {
