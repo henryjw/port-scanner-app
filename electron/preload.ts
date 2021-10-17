@@ -15,6 +15,7 @@ import { promisify } from "util";
 import { Process } from "../app/services/processreader";
 import { MAX_PORT_NUMBER, MIN_PORT_NUMBER } from "../app/constants/numbers";
 import { wait } from "../app/utils/wait";
+
 const execAsync = promisify(exec);
 
 const WINDOWS_NEWLINE = "\r\n";
@@ -122,7 +123,7 @@ async function getProcessesWindows(): Promise<Process[]> {
 	return processes;
 }
 
-export async function getProcesses(fromPort = MIN_PORT_NUMBER, toPort = MAX_PORT_NUMBER, checkWslProcesses = false): Promise<Process[]> {
+async function getProcesses(fromPort = MIN_PORT_NUMBER, toPort = MAX_PORT_NUMBER, checkWslProcesses = false): Promise<Process[]> {
 	const isWindows = getPlatform() === "win32";
 
 	let processes: Process[] = [];
@@ -133,11 +134,10 @@ export async function getProcesses(fromPort = MIN_PORT_NUMBER, toPort = MAX_PORT
 	if (isWindows) {
 		processes = processes.concat(await getProcessesWindows());
 	}
-	console.log(processes);
 	return processes.filter((process) => process.portNumber >= fromPort && process.portNumber <= toPort);
 }
 
-export function getPlatform() {
+function getPlatform() {
 	return process.platform;
 }
 
@@ -156,7 +156,7 @@ function tryKill(pid: number, wsl: boolean): boolean {
 	}
 }
 
-export async function terminate(process: Process): Promise<boolean> {
+async function terminate(process: Process): Promise<boolean> {
 	const { id: pid, isWSL } = process;
 	let signalSent = tryKill(process.id, process.isWSL);
 
@@ -187,6 +187,20 @@ contextBridge.exposeInMainWorld("process", {
 	getProcesses,
 	terminate,
 	getPlatform,
+});
+
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const ElectronStore = require("electron-store");
+const electronStore = new ElectronStore();
+
+
+contextBridge.exposeInMainWorld("store", {
+	set: function(key, value) {
+		electronStore.set(key, value);
+	},
+	get: function(key, defaultValue) {
+		return electronStore.get(key, defaultValue);
+	}
 });
 
 // All of the Node.js APIs are available in the preload process.

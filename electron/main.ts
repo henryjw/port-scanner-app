@@ -11,7 +11,11 @@
  */
 import { app, BrowserWindow } from "electron";
 import * as path from "path";
+
 const config = require("../app/configs/config");
+
+require("electron-store").initRenderer();
+
 
 function createWindow() {
 	const mainWindow = new BrowserWindow({

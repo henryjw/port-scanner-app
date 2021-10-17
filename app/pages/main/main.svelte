@@ -4,17 +4,24 @@
 	import { MAX_PORT_NUMBER, MIN_PORT_NUMBER } from "@app/constants/numbers";
 	import { getProcesses } from "@app/services/processreader";
 	import type { Process } from "@app/services/processreader";
-	import ProcessTable from "../../components/processtable/processtable.svelte";
+	import ProcessTable from "@app/components/processtable/processtable.svelte";
 	import { isWindows } from "@app/utils/platform";
+	import { set as setSetting, get as getSetting } from "@app/utils/settings-store";
 
 	const IS_WINDOWS = isWindows();
+	const SETTING_KEYS = {
+		startPort: "startPort",
+		endPort: "endPort",
+		restrictedRangeEnabled: "restrictedRangeEnabled",
+		checkWslProcesses: "checkWslProcesses",
+	};
 
-	let startPort = MIN_PORT_NUMBER;
-	let endPort = MAX_PORT_NUMBER;
-	let restrictedRangeEnabled = false;
+	let startPort = getSetting<number>(SETTING_KEYS.startPort, MIN_PORT_NUMBER);
+	let endPort = getSetting<number>(SETTING_KEYS.endPort, MAX_PORT_NUMBER);
+	let restrictedRangeEnabled = getSetting<boolean>(SETTING_KEYS.restrictedRangeEnabled, false);
 	let processes: Process[] = [];
 	let isScanning = false;
-	let checkWslProcesses = true;
+	let checkWslProcesses = getSetting<boolean>(SETTING_KEYS.checkWslProcesses, true);
 	let scanError: string | null = null;
 
 	const performScan = async () => {
@@ -38,22 +45,48 @@
 		}
 	};
 
+	const updateSetting = (key: string, value: boolean | string | number): void => {
+		setSetting(key, value);
+	};
+
 	onMount(performScan);
 </script>
 
 <div class="container">
 	<form id="scanner-form">
 		<div>
-			<input type="checkbox" bind:checked={restrictedRangeEnabled}/>
+			<input
+				type="checkbox"
+				bind:checked={restrictedRangeEnabled}
+				on:change={e => updateSetting(SETTING_KEYS.restrictedRangeEnabled, e.target.checked)}
+			/>
 			<span>Only test ports between</span>
-			<input type=number bind:value={startPort} min={MIN_PORT_NUMBER} max={MAX_PORT_NUMBER} disabled={!restrictedRangeEnabled}/>
+			<input
+				type=number
+				bind:value={startPort}
+				min={MIN_PORT_NUMBER}
+				max={MAX_PORT_NUMBER}
+				disabled={!restrictedRangeEnabled}
+				on:change={e => updateSetting(SETTING_KEYS.startPort, e.target.value)}
+			/>
 			<span>and</span>
-			<input type=number bind:value={endPort} min={MIN_PORT_NUMBER} max={MAX_PORT_NUMBER} disabled={!restrictedRangeEnabled}/>
+			<input
+				type=number
+				bind:value={endPort}
+				min={MIN_PORT_NUMBER}
+				max={MAX_PORT_NUMBER}
+				disabled={!restrictedRangeEnabled}
+				on:change={e => updateSetting(SETTING_KEYS.endPort, e.target.value)}
+			/>
 			<button id="btn-scan" class="btn btn-primary" type="button" on:click={performScan} disabled={isScanning}>SCAN</button>
 		</div>
 
 		<div hidden={!IS_WINDOWS}>
-			<input type="checkbox" bind:checked={checkWslProcesses}/>
+			<input
+				type="checkbox"
+				bind:checked={checkWslProcesses}
+				on:change={e => updateSetting(SETTING_KEYS.checkWslProcesses, e.target.checked)}
+			/>
 			<span>Check WSL Processes</span>
 		</div>
 
