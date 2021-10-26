@@ -11,7 +11,7 @@ Built on using [Svelte Electron Boilerplate](https://github.com/ptkdev-boilerpla
 ![App Screenshot](docs/images/process-terminate-prompt.png)
 
 ## Running the App
-There are pre-built binaries in the [builds](./builds) folder. Otherwise, run the `build` script for your platform.
+There are pre-built binaries in the [Releases](https://github.com/henryjw/port-scanner-app/releases) section. Otherwise, run the `build` script for your platform.
 
 ### Build Scripts
 - MacOS 	- `npm run build-mac`
@@ -20,7 +20,7 @@ There are pre-built binaries in the [builds](./builds) folder. Otherwise, run th
 
 ## WSL Support
 The Windows version can also scan for WSL processes. However, this functionality depends on `lsof`.
-If it doesn't come pre-installed with your Linux distro, you can install it with the following command: `sudo apt-get install lsof`.
+If it's not installed, then you'll get an error dialog that will tell you to install it.
 
 Optionally, you can just disable checking for WSL processes on the app.
 
@@ -40,6 +40,8 @@ Start the app in the `dev` environment. This starts the renderer process in [**h
 npm dev # Starts web app
 npm dev:electron # Starts Electron process
 ```
+
+If you don't see anything in the window, press Cmd + R (Control + R on Windows) to reload the page.
 
 ## Known Issues
 - App shows an error alert when after trying to terminate a WSL process even after successfully terminating the process.
