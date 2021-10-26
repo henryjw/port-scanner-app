@@ -120,9 +120,10 @@
 		"yargs": "^16.2.0"
 	},
 	"build": {
-		"productName": "port-scanner",
-		"appId": "io.ptkdev.port-scanner",
-		"artifactName": "${productName}-${version}.${ext}",
+		"productName": "Port Scanner",
+		"appId": "9JU6DA2G7A",
+		"artifactName": "${productName}.${ext}",
+
 		"directories": {
 			"output": "build",
 			"buildResources": "assets/resources"
