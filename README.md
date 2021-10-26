@@ -45,5 +45,5 @@ If you don't see anything in the window, press Cmd + R (Control + R on Windows) 
 
 ## Known Issues
 - App shows an error alert when after trying to terminate a WSL process even after successfully terminating the process.
-  If you click the SCAN button and the process disappears from the list, then it was terminated.
+  - If you click the SCAN button and the process disappears from the list, then it was terminated.
 - Processes running within WSL v1 will not show up
