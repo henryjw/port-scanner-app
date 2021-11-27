@@ -35,7 +35,7 @@
 		"build:client": "ts-node scripts/configs.ts && ts-node scripts/debug.ts --disable && ts-node scripts/rmdist.ts && rollup -c",
 		"build:desktop": "tsc -p ./electron/tsconfig.json",
 		"build": "npm run build:client && npm run build:desktop && electron-builder",
-		"build-mac": "npm run build:client && npm run build:desktop && electron-builder --dir --mac dmg",
+		"build-mac": "npm run build:client && npm run build:desktop && electron-builder --dir --mac",
 		"build-win": "npm run build:client && npm run build:desktop && electron-builder --dir --win portable",
 		"build-win-32bit": "npm run build:client && npm run build:desktop && electron-builder --dir --win portable --ia32",
 		"build-lnx": "npm run build:client && npm run build:desktop && electron-builder --dir --linux appImage deb rpm",
@@ -124,8 +124,7 @@
 	},
 	"build": {
 		"productName": "Port Scanner",
-		"appId": "9JU6DA2G7A",
-		"artifactName": "${productName}.${ext}",
+		"artifactName": "${productName}-${arch}.${ext}",
 		"directories": {
 			"output": "build",
 			"buildResources": "assets/resources"
@@ -136,7 +135,13 @@
 		"mac": {
 			"category": "public.app-category.developer-tools",
 			"entitlementsInherit": "./mac-configs/entitlements.mac.inherit.plist",
-			"hardenedRuntime": true
+			"hardenedRuntime": true,
+			"target": [
+				{
+					"target": "dmg",
+					"arch": ["x64", "arm64"]
+				}
+			]
 		},
 		"nsis": {
 			"oneClick": false,
