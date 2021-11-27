@@ -31,6 +31,7 @@
 		"start:electron": "electron ./dist/electron/electron/main.js",
 		"dev": "ts-node scripts/configs.ts && ts-node scripts/debug.ts --enable && ts-node scripts/rmdist.ts && rollup -c -w",
 		"dev:electron": "tsc -p ./electron/tsconfig.json && electron ./dist/electron/electron/main.js",
+		"mac:sign": "ts-node scripts/apple/sign-package.ts",
 		"build:client": "ts-node scripts/configs.ts && ts-node scripts/debug.ts --disable && ts-node scripts/rmdist.ts && rollup -c",
 		"build:desktop": "tsc -p ./electron/tsconfig.json",
 		"build": "npm run build:client && npm run build:desktop && electron-builder",
@@ -78,10 +79,12 @@
 		"@typescript-eslint/parser": "^4.21.0",
 		"all-contributors-cli": "^6.20.0",
 		"chokidar": "^3.5.1",
+		"dotenv": "^10.0.0",
 		"electron": "^12.2.2",
 		"electron-builder": "^22.10.5",
 		"electron-debug": "^3.2.0",
 		"electron-devtools-installer": "^3.1.1",
+		"electron-notarize": "^1.1.1",
 		"electron-rebuild": "^3.2.3",
 		"eslint": "^7.24.0",
 		"eslint-plugin-jest": "^24.3.5",
@@ -131,7 +134,9 @@
 			"dist"
 		],
 		"mac": {
-			"category": "public.app-category.network"
+			"category": "public.app-category.developer-tools",
+			"entitlementsInherit": "./mac-configs/entitlements.mac.inherit.plist",
+			"hardenedRuntime": true
 		},
 		"nsis": {
 			"oneClick": false,

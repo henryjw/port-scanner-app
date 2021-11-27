@@ -5,6 +5,9 @@
 # Latest version: https://github.com/henryjw/port-scanner-app/dotfiles                                 #
 ######################################################################################
 
+# Environment variables
+.env
+
 # Compiled source #
 ###################
 *.com
