@@ -35,11 +35,13 @@
 		"build:client": "ts-node scripts/configs.ts && ts-node scripts/debug.ts --disable && ts-node scripts/rmdist.ts && rollup -c",
 		"build:desktop": "tsc -p ./electron/tsconfig.json",
 		"build": "npm run build:client && npm run build:desktop && electron-builder",
-		"build-mac": "npm run build:client && npm run build:desktop && electron-builder --dir --mac",
-		"build-win": "npm run build:client && npm run build:desktop && electron-builder --dir --win portable",
-		"build-win-32bit": "npm run build:client && npm run build:desktop && electron-builder --dir --win portable --ia32",
-		"build-lnx": "npm run build:client && npm run build:desktop && electron-builder --dir --linux appImage deb rpm",
-		"release": "npm run build:client && npm run build:desktop",
+		"build:project": "npm run build:client && npm run build:desktop",
+		"build-mac": "npm run build:project && electron-builder --dir --mac dmg --x64",
+		"build-mac-arm": "npm run build:project && electron-builder --dir --mac dmg --arm64",
+		"build-win": "npm run build:project && electron-builder --dir --win portable",
+		"build-win-32bit": "npm run build:project && electron-builder --dir --win portable --ia32",
+		"build-lnx": "npm run build:project && electron-builder --dir --linux appImage deb rpm",
+		"release": "npm run build:project",
 		"test": "jest app",
 		"docs": "git submodule update --recursive && markserv ./README.md",
 		"lint": "npm run lint-prettify && eslint . --cache --ext .ts,.js",
@@ -135,13 +137,7 @@
 		"mac": {
 			"category": "public.app-category.developer-tools",
 			"entitlementsInherit": "./mac-configs/entitlements.mac.inherit.plist",
-			"hardenedRuntime": true,
-			"target": [
-				{
-					"target": "dmg",
-					"arch": ["x64", "arm64"]
-				}
-			]
+			"hardenedRuntime": true
 		},
 		"nsis": {
 			"oneClick": false,
