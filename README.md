@@ -4,7 +4,7 @@ This app scans for processes based on the network ports currently in use. The pr
 
 For instance, port 8080 is a port commonly used for development. So if it's in use, I can easily scan for that port with this app and terminate whatever process is using that port.
 
-Built on using [Svelte Electron Boilerplate](https://github.com/ptkdev-boilerplate/svelte-electron-boilerplate).
+Built on top of [Svelte Electron Boilerplate](https://github.com/ptkdev-boilerplate/svelte-electron-boilerplate).
 
 ### App Screenshot
 
