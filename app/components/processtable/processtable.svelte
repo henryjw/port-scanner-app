@@ -12,6 +12,7 @@
 	export let loading = false;
 	let selectedProcess: Process | null;
 	let terminatingProcess = false;
+	let sortDirection: "desc" | "asc" | null = null;
 
 	const setSelectedProcess = (process: Process): void => {
 		selectedProcess = process;
@@ -29,6 +30,24 @@
 			alert("Unable to terminate process");
 		}
 	};
+
+	const sortByPortNumber = () => {
+		const sortAscending = () => processes.sort((a, b) => b.portNumber - a.portNumber);
+		const sortDescending = () => processes.sort((a, b) => a.portNumber - b.portNumber);
+		switch (sortDirection) {
+			case "asc":
+				sortDirection = "desc";
+				sortDescending();
+				break;
+			case "desc":
+				sortDirection = "asc";
+				sortAscending();
+				break;
+			default:
+				sortDirection = "asc";
+				sortAscending();
+		}
+	};
 </script>
 
 <DangerModal
@@ -44,7 +63,7 @@
 	<thead>
 		<tr>
 			<th scope="col"></th>
-			<th scope="col">Port</th>
+			<th scope="col" on:click={sortByPortNumber}>Port</th>
 			<th scope="col">Command</th>
 			<th scope="col">PID</th>
 		</tr>
