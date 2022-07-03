@@ -1,15 +1,11 @@
 {
   "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
-  "cli": {
-    "analytics": "a5eb8bf1-2055-42c9-94ce-f5caabaa5467",
-    "defaultCollection": "@angular-eslint/schematics"
-  },
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
     "angular-electron": {
-      "root": "",
-      "sourceRoot": "src",
+      "root": "projects/angular-electron",
+      "sourceRoot": "projects/angular-electron/src",
       "projectType": "application",
       "schematics": {
         "@schematics/angular:application": {
@@ -25,17 +21,17 @@
           "builder": "@angular-builders/custom-webpack:browser",
           "options": {
             "outputPath": "dist",
-            "index": "src/index.html",
-            "main": "src/main.ts",
-            "tsConfig": "src/tsconfig.app.json",
-            "polyfills": "src/polyfills.ts",
+            "index": "projects/angular-electron/src/index.html",
+            "main": "projects/angular-electron/src/main.ts",
+            "tsConfig": "projects/angular-electron/src/tsconfig.app.json",
+            "polyfills": "projects/angular-electron/src/polyfills.ts",
             "inlineStyleLanguage": "scss",
             "assets": [
-              "src/favicon.ico",
-              "src/assets"
+              "projects/angular-electron/src/favicon.ico",
+              "projects/angular-electron/src/assets"
             ],
             "styles": [
-              "src/styles.scss"
+              "projects/angular-electron/src/styles.scss"
             ],
             "scripts": [],
             "customWebpackConfig": {
@@ -55,8 +51,8 @@
               "buildOptimizer": false,
               "fileReplacements": [
                 {
-                  "replace": "src/environments/environment.ts",
-                  "with": "src/environments/environment.dev.ts"
+                  "replace": "projects/angular-electron/src/environments/environment.ts",
+                  "with": "projects/angular-electron/src/environments/environment.dev.ts"
                 }
               ]
             },
@@ -71,8 +67,8 @@
               "buildOptimizer": true,
               "fileReplacements": [
                 {
-                  "replace": "src/environments/environment.ts",
-                  "with": "src/environments/environment.prod.ts"
+                  "replace": "projects/angular-electron/src/environments/environment.ts",
+                  "with": "projects/angular-electron/src/environments/environment.prod.ts"
                 }
               ]
             },
@@ -87,8 +83,8 @@
               "buildOptimizer": false,
               "fileReplacements": [
                 {
-                  "replace": "src/environments/environment.ts",
-                  "with": "src/environments/environment.web.ts"
+                  "replace": "projects/angular-electron/src/environments/environment.ts",
+                  "with": "projects/angular-electron/src/environments/environment.web.ts"
                 }
               ]
             },
@@ -103,8 +99,8 @@
               "buildOptimizer": true,
               "fileReplacements": [
                 {
-                  "replace": "src/environments/environment.ts",
-                  "with": "src/environments/environment.web.prod.ts"
+                  "replace": "projects/angular-electron/src/environments/environment.ts",
+                  "with": "projects/angular-electron/src/environments/environment.web.prod.ts"
                 }
               ]
             }
@@ -139,18 +135,18 @@
         "test": {
           "builder": "@angular-builders/custom-webpack:karma",
           "options": {
-            "main": "src/test.ts",
-            "polyfills": "src/polyfills-test.ts",
-            "tsConfig": "src/tsconfig.spec.json",
-            "karmaConfig": "src/karma.conf.js",
+            "main": "projects/angular-electron/src/test.ts",
+            "polyfills": "projects/angular-electron/src/polyfills-test.ts",
+            "tsConfig": "projects/angular-electron/src/tsconfig.spec.json",
+            "karmaConfig": "projects/angular-electron/src/karma.conf.js",
             "inlineStyleLanguage": "scss",
             "scripts": [],
             "styles": [
-              "src/styles.scss"
+              "projects/angular-electron/src/styles.scss"
             ],
             "assets": [
-              "src/favicon.ico",
-              "src/assets"
+              "projects/angular-electron/src/favicon.ico",
+              "projects/angular-electron/src/assets"
             ],
             "customWebpackConfig": {
               "path": "./angular.webpack.js",
@@ -162,14 +158,48 @@
           "builder": "@angular-eslint/builder:lint",
           "options": {
             "lintFilePatterns": [
-              "src/**/*.ts",
-              "src/**/*.html"
+              "projects/angular-electron/src/**/*.ts",
+              "projects/angular-electron/src/**/*.html"
             ]
           }
         }
       }
     },
     "angular-electron-e2e": {
+      "root": "projects/angular-electron-e2e",
+      "sourceRoot": "projects/angular-electron-e2e/src",
+      "projectType": "application",
+      "architect": {
+        "e2e": {
+          "builder": "@nrwl/cypress:cypress",
+          "options": {
+            "cypressConfig": "projects/angular-electron-e2e/cypress.json",
+            "devServerTarget": "angular-electron:serve"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "angular-electron:serve:production"
+            }
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "outputs": [
+            "{options.outputFile}"
+          ],
+          "options": {
+            "lintFilePatterns": [
+              "projects/angular-electron-e2e/**/*.{js,ts}"
+            ]
+          }
+        }
+      },
+      "tags": [],
+      "implicitDependencies": [
+        "angular-electron"
+      ]
+    },
+    "electron-e2e": {
       "root": "e2e",
       "projectType": "application",
       "architect": {
@@ -183,6 +213,5 @@
         }
       }
     }
-  },
-  "defaultProject": "angular-electron"
+  }
 }

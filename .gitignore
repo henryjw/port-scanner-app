@@ -10,7 +10,7 @@
 /release
 main.js
 src/**/*.js
-!src/karma.conf.js
+!projects/angular-electron/src/karma.conf.js
 *.js.map
 
 # dependencies
