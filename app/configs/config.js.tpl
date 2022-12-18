@@ -1,7 +1,7 @@
 module.exports = {
 	// Server
 	"server": {
-		"port": 5000,
+		"port": 5050,
 	},
 
 	// Debug
