@@ -1,3 +1,6 @@
+# v1.3.0 (Oct 17, 2021)
+- UI improvements
+
 # v1.2.0 (Oct 17, 2021)
 - The app now remembers your settings
 

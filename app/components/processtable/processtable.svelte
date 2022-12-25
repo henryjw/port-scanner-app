@@ -1,6 +1,6 @@
 <script lang="ts">
 	import DangerModal from "../common/alerts/danger-modal.svelte";
-	import DangerButton from "../common/alerts/danger-button.svelte";
+	import CloseButton from "../common/alerts/close-button.svelte";
 	import type { Process } from "../../services/processreader";
 	import { terminate as pkill } from "../../services/processmanager";
 
@@ -54,8 +54,7 @@
 			{#each processes as process}
 				<tr>
 					<th scope="row">
-						<!--- TODO: use nice icon for this button -->
-						<DangerButton text="X" onClick={() => setSelectedProcess(process)}/>
+						<CloseButton  onClick={() => setSelectedProcess(process)}/>
 					</th>
 					<td>
 						{process.portNumber}
