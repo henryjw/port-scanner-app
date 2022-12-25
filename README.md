@@ -8,7 +8,10 @@ Built on top of [Svelte Electron Boilerplate](https://github.com/ptkdev-boilerpl
 
 ### App Screenshot
 
-![App Screenshot](docs/images/process-terminate-prompt.png)
+![app](https://user-images.githubusercontent.com/3443648/209481627-9f1384a1-c38a-49d8-ae0c-37fd46026964.png)
+
+![terminate process dialog](https://user-images.githubusercontent.com/3443648/209481635-9e59ca79-12d7-4dfc-895b-31c76b61165c.png)
+
 
 ## Running the App
 There are pre-built binaries in the [Releases](https://github.com/henryjw/port-scanner-app/releases) section. Otherwise, run the `build` script for your platform.
