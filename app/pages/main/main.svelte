@@ -7,8 +7,14 @@
 	import ProcessTable from "@app/components/processtable/processtable.svelte";
 	import { isWindows } from "@app/utils/platform";
 	import { set as setSetting, get as getSetting } from "@app/utils/settings-store";
+	import { wait } from "@app/utils/wait";
+	import { generateRandomNumber } from "@app/utils/random-generator";
 
 	const IS_WINDOWS = isWindows();
+	const PLACE_HOLDER_LOAD_TIME_RANGE = {
+		min: 500,
+		max: 750,
+	};
 	const SETTING_KEYS = {
 		startPort: "startPort",
 		endPort: "endPort",
@@ -30,10 +36,19 @@
 			scanError = null;
 			processes = [];
 
+			const scanStart = Date.now();
 			if (restrictedRangeEnabled) {
 				processes = await getProcesses(startPort, endPort, checkWslProcesses);
 			} else {
 				processes = await getProcesses(MIN_PORT_NUMBER, MAX_PORT_NUMBER, checkWslProcesses);
+			}
+
+			const scanTime = Date.now() - scanStart;
+			const waitTime = generateRandomNumber(PLACE_HOLDER_LOAD_TIME_RANGE.min, PLACE_HOLDER_LOAD_TIME_RANGE.max);
+
+			// Wait a minimum amount of time to avoid flickering
+			if (scanTime < waitTime) {
+				await wait(waitTime - scanTime);
 			}
 
 			return processes;
