@@ -6,7 +6,8 @@ import config from "./config";
 
 (async function signTasks () {
 	// Notarize multiple apps when there different architectures supported
-	const promises = config.appPaths.map(async appPath => {
+	const appPaths = process.env.APP_PATHS.split(";") || config.appPaths;
+	const promises = appPaths.map(async appPath => {
 		console.debug(`Notarizing ${appPath}`);
 		await notarize({
 			appPath,
