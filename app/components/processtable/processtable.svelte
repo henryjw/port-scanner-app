@@ -40,7 +40,7 @@
 	on:close={() => selectedProcess = null}
 />
 
-<table class="table align-middle">
+<table class="table table-hover align-middle">
 	<thead>
 		<tr>
 			<th scope="col"></th>
