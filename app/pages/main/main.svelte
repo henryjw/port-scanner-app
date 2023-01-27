@@ -9,6 +9,7 @@
 	import { set as setSetting, get as getSetting } from "@app/utils/settings-store";
 	import { wait } from "@app/utils/wait";
 	import { generateRandomNumber } from "@app/utils/random-generator";
+	import { sort } from "@app/utils/sort";
 
 	const IS_WINDOWS = isWindows();
 	const PLACE_HOLDER_LOAD_TIME_RANGE = {
@@ -105,7 +106,7 @@
 			<span>Check WSL Processes</span>
 		</div>
 
-		<ProcessTable processes={processes} onProcessChange={performScan} loading={isScanning}/>
+		<ProcessTable processes={sort(processes, "portNumber", "asc")} onProcessChange={performScan} loading={isScanning}/>
 		<span class="text-danger error" hidden={!scanError}>{scanError}</span>
 	</form>
 </div>
