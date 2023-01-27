@@ -22,7 +22,7 @@
 		"url": "https://github.com/henryjw/port-scanner-app/issues"
 	},
 	"engines": {
-		"node": ">=14.0.0"
+		"node": "14.x.x"
 	},
 	"scripts": {
 		"init": "npm install && husky install",
