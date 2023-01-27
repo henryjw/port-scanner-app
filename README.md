@@ -21,6 +21,10 @@ There are pre-built binaries in the [Releases](https://github.com/henryjw/port-s
 - Windows 	- `npm run build-win`
 - Linux 	- `npm run build-lnx`
 
+
+### Release scripts
+- MacOS (builds and signs macOS app) - `npm run release-mac-x64` | `npm run release-mac-arm64`
+
 ## WSL Support
 The Windows version can also scan for WSL processes. However, this functionality depends on `lsof`.
 If it's not installed, then you'll get an error dialog that will tell you to install it.
