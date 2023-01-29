@@ -1,10 +1,16 @@
-import * as dotenv from "dotenv";
+const dotenv = require("dotenv");
 dotenv.config();
 
 const missingVariables = [];
 
 
-const env = (envVariableName: string, required = true): string => {
+/**
+ *
+ * @param {string} envVariableName
+ * @param required
+ * @returns {string}
+ */
+const env = (envVariableName, required = true) => {
 	const value =  process.env[envVariableName] || "";
 
 	if (!value && required) {
@@ -26,4 +32,4 @@ const config =  {
 	teamId: env("APPLE_TEAM_ID")
 };
 
-export default config;
+module.exports = config;

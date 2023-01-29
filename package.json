@@ -31,17 +31,12 @@
 		"start:electron": "electron ./dist/electron/electron/main.js",
 		"dev": "ts-node scripts/configs.ts && ts-node scripts/debug.ts --enable && ts-node scripts/rmdist.ts && rollup -c -w",
 		"dev:electron": "tsc -p ./electron/tsconfig.json && electron ./dist/electron/electron/main.js",
-		"mac:notarize": "APP_PATHS='./build/mac-arm64/Port Scanner.app;./build/mac/Port Scanner.app' ts-node scripts/apple/notarize-package.ts",
-		"mac:notarize:arm": "APP_PATHS='./build/mac-arm64/Port Scanner.app' ts-node scripts/apple/notarize-package.ts",
-		"mac:notarize:x64": "APP_PATHS='./build/mac/Port Scanner.app' ts-node scripts/apple/notarize-package.ts",
 		"build:client": "ts-node scripts/configs.ts && ts-node scripts/debug.ts --disable && ts-node scripts/rmdist.ts && rollup -c",
 		"build:desktop": "tsc -p ./electron/tsconfig.json",
 		"build": "npm run build:client && npm run build:desktop && electron-builder",
 		"build:project": "npm run build:client && npm run build:desktop",
 		"build-mac-x64": "npm run build:project && electron-builder --dir --mac dmg --x64",
-		"build-mac-arm": "npm run build:project && electron-builder --dir --mac dmg --arm64",
-		"release-mac-x64": "npm run build:project && npm run mac:notarize:x64 && electron-builder --dir --mac dmg --x64",
-		"release-mac-arm64": "npm run build:project && npm run mac:notarize:arm && electron-builder --dir --mac dmg --arm64",
+		"build-mac-arm64": "npm run build:project && electron-builder --dir --mac dmg --arm64",
 		"build-win": "electron-builder --dir --win nsis zip",
 		"build-win-32bit": "npm run build:project && electron-builder --dir --win portable --ia32",
 		"build-lnx": "npm run build:project && electron-builder --dir --linux appImage deb rpm",
@@ -138,6 +133,7 @@
 		"files": [
 			"dist"
 		],
+		"afterSign": "./scripts/afterSignHook.js",
 		"mac": {
 			"category": "public.app-category.developer-tools",
 			"entitlementsInherit": "./mac-configs/entitlements.mac.inherit.plist",
