@@ -18,6 +18,7 @@
 	});
 </script>
 
+<!-- Currently not in use. Dark mode is managed in init.ts -->
 <div class="field">
 	<input id="dark-mode" type="checkbox" name="dark-mode" class="switch" on:click={() => darkModeToggle()} {checked} />
 	<label for="dark-mode" />

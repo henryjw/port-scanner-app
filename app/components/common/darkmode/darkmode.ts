@@ -7,50 +7,49 @@
  * @license: MIT License
  *
  */
-let darkmode = false;
 
-/**
- * DarkMode Toggle
- * =====================
- * Return true or false if darkmode is enabled
- *
- * @return {boolean} darkmode - true = dark mode enabled, false = light mode enabled
- *
- */
-const darkModeToggle = (): boolean => {
-	if (document.querySelector("html").classList.contains("darkmode")) {
-		darkmode = false;
+export const darkMode = darkModeDetect();
+
+export function enableDarkMode(): void {
+	document.querySelector("html").classList.add("darkmode");
+	document.querySelector("body").classList.add("darkmode");
+
+	window.localStorage.setItem("darkmode", "enabled");
+}
+
+export function disableDarkMode(): void {
+	document.querySelector("html").classList.remove("darkmode");
+	document.querySelector("body").classList.remove("darkmode");
+
+	window.localStorage.setItem("darkmode", "disabled");
+}
+
+export function darkModeDetect(): boolean {
+	// TODO: add setting to toggle dark mode. For now, just check if the user has dark mode enabled in their OS.
+
+	return window.matchMedia("(prefers-color-scheme: dark)").matches;
+}
+
+export function darkModeToggle(): boolean {
+	if (darkModeDetect()) {
+		disableDarkMode();
 	} else {
-		darkmode = true;
+		enableDarkMode();
 	}
 
-	document.querySelector("html").classList.toggle("darkmode");
-	document.querySelector("body").classList.toggle("darkmode");
+	return darkModeDetect();
+}
 
-	window.localStorage.setItem("darkmode", darkmode ? "enabled" : "disabled");
-
-	return darkmode;
-};
-
-/**
- * DarkMode Detect
- * =====================
- * Check if exist prefers-color-scheme or darkmode value from localStorage() and set dark mode
- *
- * @return {boolean} darkmode - true = dark mode enabled, false = light mode enabled
- *
- */
-const darkModeDetect = (): boolean => {
-	if (window.localStorage.getItem("darkmode") === "enabled" || (window.localStorage.getItem("darkmode") === undefined && window?.matchMedia("(prefers-color-scheme: dark)").matches)) {
-		if (!document.querySelector("html").classList.contains("darkmode")) {
-			document.querySelector("html").classList.add("darkmode");
-			document.querySelector("body").classList.add("darkmode");
-		}
-
-		return true;
+export function setDarkMode(darkModeEnabled: boolean): void {
+	if (darkModeEnabled) {
+		enableDarkMode();
+	} else {
+		disableDarkMode();
 	}
+}
 
-	return false;
-};
-
-export { darkModeToggle, darkModeDetect, darkmode };
+export function onSystemDarkModeChange(callback: (darkModeEnabled: boolean) => void): void {
+	window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", (e) => {
+		callback(e.matches);
+	});
+}
