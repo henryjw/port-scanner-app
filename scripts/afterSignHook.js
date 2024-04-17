@@ -11,6 +11,11 @@ async function afterSignHook(params) {
 		return;
 	}
 
+	if (process.env.NOTARIZE !== 'true') {
+		console.debug("Skipping app notarization since it's not enabled.");
+		return;
+	}
+
 	const { appOutDir, packager: {appInfo: {productFilename}} } = params;
 
 	const fileExtension = path.extname(productFilename) || '.app';
