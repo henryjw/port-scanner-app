@@ -12,7 +12,9 @@ jobs:
             - name: Use Node.js
               uses: actions/setup-node@v4.0.2
               with:
-                  node-version: 14
+                  # Node 14 isn't compatible with MacOS 14 ARM64
+                  # TODO: Update app to at least Node 18
+                  node-version: 16
 
             - name: Install dependencies
               run: npm install
