@@ -17,7 +17,7 @@ Built on top of [Svelte Electron Boilerplate](https://github.com/ptkdev-boilerpl
 There are pre-built binaries in the [Releases](https://github.com/henryjw/port-scanner-app/releases) section. Otherwise, run the `build` script for your platform.
 
 ### Build Scripts
-- MacOS 	- `npm run build-mac`
+- MacOS 	- `npm run build-mac-arm64` OR `npm run build-mac-x64`
 - Windows 	- `npm run build-win`
 - Linux 	- `npm run build-lnx`
 
