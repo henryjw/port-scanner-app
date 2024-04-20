@@ -9,21 +9,10 @@ jobs:
             - name: Checkout code
               uses: actions/checkout@v4.1.1
 
-            # FIXME: This is a workaround since v14 for nodejs is no available by default for ARM64
-            # The correct fix is to upgrade to nodejs v16 or higher
-
-            - name: Install node version
-              uses: dcodeIO/setup-node-nvm@v5
-              with:
-                node-version: 14.17.0
-
-            - name: Install correct NPM version
-              run: npm install -g npm@8
-
-#            -   name: Use Node.js
-#                uses: actions/setup-node@v4.0.2
-#                with:
-#                    node-version: 16
+            -   name: Use Node.js
+                uses: actions/setup-node@v4.0.2
+                with:
+                    node-version: 16.20.2
 
             - name: Install dependencies
               run: npm ci

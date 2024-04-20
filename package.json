@@ -22,7 +22,7 @@
 		"url": "https://github.com/henryjw/port-scanner-app/issues"
 	},
 	"engines": {
-		"node": "14.x.x"
+		"node": "16.x.x"
 	},
 	"scripts": {
 		"init": "npm install && husky install",
@@ -86,7 +86,7 @@
 		"electron-debug": "^3.2.0",
 		"electron-devtools-installer": "^3.1.1",
 		"electron-notarize": "^1.1.1",
-		"electron-rebuild": "^3.2.3",
+		"electron-rebuild": "^3.2.9",
 		"eslint": "^7.24.0",
 		"eslint-plugin-jest": "^24.3.5",
 		"eslint-plugin-jsdoc": "^32.3.0",
