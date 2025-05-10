@@ -72,7 +72,6 @@ module.exports = {
 			}
 		],
 		"semi": ["error", "always"],
-		"no-console": ["warn"],
 		"no-constant-condition": ["warn"],
 		"curly": ["error", "all"],
 		"brace-style": [
@@ -105,12 +104,9 @@ module.exports = {
 		"jest/no-identical-title": "error",
 		"jest/prefer-to-have-length": "warn",
 		"jest/valid-expect": "error",
-		"jsdoc/require-param": 1,
 		"jsdoc/require-param-description": 1,
 		"jsdoc/require-param-name": 1,
 		"jsdoc/require-param-type": 1,
-		"jsdoc/require-returns": 1,
-		"jsdoc/require-returns-description": 1,
 		"jsdoc/require-returns-type": 1,
 		"jsdoc/require-returns-check": 1,
 		"jsdoc/require-hyphen-before-param-description": 1
