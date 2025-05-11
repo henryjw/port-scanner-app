@@ -33,10 +33,10 @@
 		const terminated = await processManager.stop(process, 10_000);
 
 		if (terminated) {
-			console.debug(`Terminated process ${process.command} (${process.id})`);
+			console.debug(`Stopped process ${process.command} (${process.id})`);
 			onProcessChange();
 		} else {
-			alert("Unable to terminate process");
+			alert("Unable to stop process");
 		}
 	};
 </script>
