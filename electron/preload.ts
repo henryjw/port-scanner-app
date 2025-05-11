@@ -14,7 +14,7 @@ import { promisify } from "util";
 
 import { Process } from "../app/services/processreader";
 import { MAX_PORT_NUMBER, MIN_PORT_NUMBER } from "../app/constants/numbers";
-import { wait } from "../app/utils/wait";
+import { exponentialBackoff } from "../app/utils/wait";
 
 const execAsync = promisify(exec);
 
@@ -141,12 +141,15 @@ function getPlatform() {
 	return process.platform;
 }
 
-function tryKill(pid: number, wsl: boolean): boolean {
+/**
+ * Returns true if signal to stop process was sent successfully. False otherwise (e.g., if process is no longer running)
+ */
+function tryKill(pid: number, wsl: boolean, signal: "SIGINT" | "SIGKILL"): boolean {
 	try {
 		if (wsl) {
 			return exec(`wsl kill ${pid}`).exitCode === 0;
 		}
-		return process.kill(pid);
+		return process.kill(pid, signal);
 	} catch (err) {
 		if (err.code === "ESRCH") {
 			return false;
@@ -156,30 +159,28 @@ function tryKill(pid: number, wsl: boolean): boolean {
 	}
 }
 
-async function terminate(process: Process): Promise<boolean> {
-	const { id: pid, isWSL } = process;
-	let signalSent = tryKill(process.id, process.isWSL);
+async function terminate(process: Process, maxWaitTimeMs: number): Promise<boolean> {
+	throw new Error("Not yet implemented");
+}
 
-	if (!signalSent) {
-		return false;
-	}
+async function stop(process: Process, maxWaitTimeMs: number): Promise<boolean> {
+	return exponentialBackoff({
+		maxDelayMs: maxWaitTimeMs,
+		initialDelay: 100,
+		maxRetries: 1000, // Doesn't matter; we only care about the time
+		fn() {
+			// Keep trying until `tryKill()` returns `false`; i.e., the process was terminated
+			const signalSent = tryKill(process.id, process.isWSL, "SIGINT");
 
-	let tries = 0;
-	const maxTries = 5;
+			if (signalSent) {
+				console.debug("Process is still running; will try to send signal again");
+			} else {
+				console.debug("Process terminated successfully");
+			}
 
-	do {
-		await wait(100);
-		tries += 1;
-		signalSent = tryKill(pid, isWSL);
-		// If the process is still receiving the signal it means it's still alive
-	} while (signalSent && tries <= maxTries);
-
-	if (signalSent) {
-		console.error(`Unable to terminate process ${pid}`);
-		return false;
-	}
-
-	return true;
+			return !signalSent;
+		},
+	});
 }
 
 // https:// www.electronjs.org/docs/tutorial/process-model#preload-scripts
@@ -187,6 +188,7 @@ contextBridge.exposeInMainWorld("process", {
 	getProcesses,
 	terminate,
 	getPlatform,
+	stop,
 });
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
@@ -195,10 +197,10 @@ const electronStore = new ElectronStore();
 
 
 contextBridge.exposeInMainWorld("store", {
-	set: function(key, value) {
+	set: function (key, value) {
 		electronStore.set(key, value);
 	},
-	get: function(key, defaultValue) {
+	get: function (key, defaultValue) {
 		return electronStore.get(key, defaultValue);
 	}
 });

@@ -44,11 +44,10 @@ npm i
 Start the app in the `dev` environment. This starts the renderer process in [**hot-module-replacement**](https://webpack.js.org/guides/hmr-react/) mode and starts a webpack dev server that sends hot updates to the renderer process:
 
 ```sh
-npm dev # Starts web app
-npm dev:electron # Starts Electron process
+npm dev
 ```
 
-If you don't see anything in the window, press Cmd + R (Control + R on Windows) to reload the page.
+If you don't see anything in the window, press Cmd + R (Control + R on Windows) to reload the page. This happens when the Electron app launches before the web app. Give it a few seconds; you should see the "Your application is ready~! 🚀" message in the terminal.
 
 ## Known Issues
 - App shows an error alert when after trying to terminate a WSL process even after successfully terminating the process.
