@@ -11,6 +11,11 @@ async function afterSignHook(params) {
 		return;
 	}
 
+	if (process.env.NOTARIZE !== 'true') {
+		console.info("Notarization is disabled. Set environment variable NOTARIZE=true to enable");
+		return;
+	}
+
 	const { appOutDir, packager: {appInfo: {productFilename}} } = params;
 
 	const fileExtension = path.extname(productFilename) || '.app';
