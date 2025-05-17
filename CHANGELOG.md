@@ -1,3 +1,7 @@
+# v1.4.0 (May 17, 2025)
+- Default to stopping process instead of terminating. Option to terminate if process doesn't stop.
+- Show longer process names instead of only the first 9 characters
+
 # v1.3.1 (Jan 26, 2023)
 - order results by port number
 
