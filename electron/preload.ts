@@ -30,7 +30,9 @@ const LSOF_EXIT_CODES = {
 const INVALID_PORT_NUMBER_CODE = -1;
 
 async function getProcessesUnix({ wsl = false }): Promise<Process[]> {
-	const script = `${wsl ? "wsl" : ""} lsof -PiTCP -sTCP:LISTEN`;
+	// `+c {number}` expands the number of characters lsof returns for each command name; the default length is 9, which
+	// is too short
+	const script = `${wsl ? "wsl" : ""} lsof -PiTCP -sTCP:LISTEN +c 100`;
 	console.debug("GetProcesses Script: ", script);
 
 	let scriptResult: string;
