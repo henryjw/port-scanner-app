@@ -6,11 +6,13 @@ For instance, port 8080 is a port commonly used for development. So if it's in u
 
 Built on top of [Svelte Electron Boilerplate](https://github.com/ptkdev-boilerplate/svelte-electron-boilerplate).
 
-### App Screenshot
+### App Screenshots
 
-![app](https://user-images.githubusercontent.com/3443648/209481627-9f1384a1-c38a-49d8-ae0c-37fd46026964.png)
+![app](docs/images/app-screenshot.png)
 
-![terminate process dialog](https://user-images.githubusercontent.com/3443648/209481635-9e59ca79-12d7-4dfc-895b-31c76b61165c.png)
+![stop process dialog](docs/images/process-stop-prompt.png)
+
+![terminate process dialog](docs/images/process-terminate-prompt.png)
 
 
 ## Running the App
