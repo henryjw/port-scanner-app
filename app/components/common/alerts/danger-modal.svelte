@@ -46,6 +46,7 @@
 			{#if !loading}
 				<div class="modal-body">
 					{message}
+					<slot name="submessage"></slot>
 				</div>
 			{/if}
 			{#if loading}

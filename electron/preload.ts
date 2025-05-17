@@ -160,7 +160,23 @@ function tryKill(pid: number, wsl: boolean, signal: "SIGINT" | "SIGKILL"): boole
 }
 
 async function terminate(process: Process, maxWaitTimeMs: number): Promise<boolean> {
-	throw new Error("Not yet implemented");
+	return exponentialBackoff({
+		maxDelayMs: maxWaitTimeMs,
+		initialDelay: 100,
+		maxRetries: 1000, // Doesn't matter; we only care about the time
+		fn() {
+			// Keep trying until `tryKill()` returns `false`; i.e., the process was terminated
+			const signalSent = tryKill(process.id, process.isWSL, "SIGKILL");
+
+			if (signalSent) {
+				console.debug("Process is still running; will try to send signal again");
+			} else {
+				console.debug("Process terminated successfully");
+			}
+
+			return !signalSent;
+		},
+	});
 }
 
 async function stop(process: Process, maxWaitTimeMs: number): Promise<boolean> {
@@ -175,7 +191,7 @@ async function stop(process: Process, maxWaitTimeMs: number): Promise<boolean> {
 			if (signalSent) {
 				console.debug("Process is still running; will try to send signal again");
 			} else {
-				console.debug("Process terminated successfully");
+				console.debug("Process stopped successfully");
 			}
 
 			return !signalSent;
@@ -197,12 +213,12 @@ const electronStore = new ElectronStore();
 
 
 contextBridge.exposeInMainWorld("store", {
-	set: function (key, value) {
+	set: function(key, value) {
 		electronStore.set(key, value);
 	},
-	get: function (key, defaultValue) {
+	get: function(key, defaultValue) {
 		return electronStore.get(key, defaultValue);
-	}
+	},
 });
 
 // All of the Node.js APIs are available in the preload process.
